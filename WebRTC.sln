@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9E764115-6B20-4D28-B9A3-B743FF0D4FA4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "applications", "applications", "{C38A1249-704E-4A27-A795-28E8A6E33B4D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libraries", "libraries", "{B93B0412-F6E6-44F1-8363-6ED7BBDBA1FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebRTC.Web", "src\applications\WebRTC.Web\WebRTC.Web.csproj", "{5C645AB9-52D8-44BA-99E5-6513F7166DC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebRTC.Infrastructure", "src\libraries\WebRTC.Infrastructure\WebRTC.Infrastructure.csproj", "{85466968-81C8-4E85-9125-7BA6BA333BF8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5C645AB9-52D8-44BA-99E5-6513F7166DC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C645AB9-52D8-44BA-99E5-6513F7166DC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C645AB9-52D8-44BA-99E5-6513F7166DC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C645AB9-52D8-44BA-99E5-6513F7166DC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85466968-81C8-4E85-9125-7BA6BA333BF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85466968-81C8-4E85-9125-7BA6BA333BF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85466968-81C8-4E85-9125-7BA6BA333BF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85466968-81C8-4E85-9125-7BA6BA333BF8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C38A1249-704E-4A27-A795-28E8A6E33B4D} = {9E764115-6B20-4D28-B9A3-B743FF0D4FA4}
+		{B93B0412-F6E6-44F1-8363-6ED7BBDBA1FC} = {9E764115-6B20-4D28-B9A3-B743FF0D4FA4}
+		{5C645AB9-52D8-44BA-99E5-6513F7166DC9} = {C38A1249-704E-4A27-A795-28E8A6E33B4D}
+		{85466968-81C8-4E85-9125-7BA6BA333BF8} = {B93B0412-F6E6-44F1-8363-6ED7BBDBA1FC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {33C99427-DD4D-4D89-B528-79F1CA52DE07}
+	EndGlobalSection
+EndGlobal

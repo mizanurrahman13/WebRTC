@@ -9,9 +9,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "applications", "application
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libraries", "libraries", "{B93B0412-F6E6-44F1-8363-6ED7BBDBA1FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebRTC.Web", "src\applications\WebRTC.Web\WebRTC.Web.csproj", "{5C645AB9-52D8-44BA-99E5-6513F7166DC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebRTC.Infrastructure", "src\libraries\WebRTC.Infrastructure\WebRTC.Infrastructure.csproj", "{85466968-81C8-4E85-9125-7BA6BA333BF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebRTC.Infrastructure", "src\libraries\WebRTC.Infrastructure\WebRTC.Infrastructure.csproj", "{85466968-81C8-4E85-9125-7BA6BA333BF8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{99F06A58-0CB7-4E1A-9F14-4260585BF588}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebRTC.Web", "src\applications\WebRTC.Web\WebRTC.Web.csproj", "{C09E3A20-DEAF-4659-B3B4-6C38DCC1DE99}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +24,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5C645AB9-52D8-44BA-99E5-6513F7166DC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C645AB9-52D8-44BA-99E5-6513F7166DC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C645AB9-52D8-44BA-99E5-6513F7166DC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C645AB9-52D8-44BA-99E5-6513F7166DC9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{85466968-81C8-4E85-9125-7BA6BA333BF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{85466968-81C8-4E85-9125-7BA6BA333BF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85466968-81C8-4E85-9125-7BA6BA333BF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85466968-81C8-4E85-9125-7BA6BA333BF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C09E3A20-DEAF-4659-B3B4-6C38DCC1DE99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C09E3A20-DEAF-4659-B3B4-6C38DCC1DE99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C09E3A20-DEAF-4659-B3B4-6C38DCC1DE99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C09E3A20-DEAF-4659-B3B4-6C38DCC1DE99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -34,8 +39,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C38A1249-704E-4A27-A795-28E8A6E33B4D} = {9E764115-6B20-4D28-B9A3-B743FF0D4FA4}
 		{B93B0412-F6E6-44F1-8363-6ED7BBDBA1FC} = {9E764115-6B20-4D28-B9A3-B743FF0D4FA4}
-		{5C645AB9-52D8-44BA-99E5-6513F7166DC9} = {C38A1249-704E-4A27-A795-28E8A6E33B4D}
 		{85466968-81C8-4E85-9125-7BA6BA333BF8} = {B93B0412-F6E6-44F1-8363-6ED7BBDBA1FC}
+		{C09E3A20-DEAF-4659-B3B4-6C38DCC1DE99} = {C38A1249-704E-4A27-A795-28E8A6E33B4D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33C99427-DD4D-4D89-B528-79F1CA52DE07}

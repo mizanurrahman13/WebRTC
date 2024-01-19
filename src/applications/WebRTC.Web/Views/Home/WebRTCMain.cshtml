@@ -1,0 +1,256 @@
+﻿@* @{
+    ViewData["Title"] = "WebRTC with ASP.NET Core";
+}
+
+@section StyleSheets {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/css/webrtc.css" type="text/css" />
+    <link rel="stylesheet" href="~/css/main.css" type="text/css" />
+    <link rel="stylesheet" href="~/css/lobby.css" type="text/css" />
+}
+}
+}
+
+@* <div class="roomCreate">
+    <label for="name">Room Name:</label>
+    <input type="text" id="roomNameTxt" />
+    <button id="createRoomBtn">Create</button>
+</div>
+
+<div>
+    <table id="roomTable" class="display" style="width:100%;">
+        <thead>
+            <tr>
+                <th>Room ID</th>
+                <th>Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<div class="borderLine"></div>
+
+<div>
+    <div class="connectionStatus">
+        <p id="connectionStatusMessage">*You can create your own room or join the other room.</p>
+    </div>
+    <h5>Video chat</h5>
+    <div class="videoArea">
+        <video id="localVideo" autoplay playsinline></video>
+        <video id="remoteVideo" autoplay playsinline></video>
+    </div>
+
+    <h5>File sharing</h5>
+    <div id="fileShare">
+        <input type="file" id="fileInput">
+        <button id="sendFileBtn" class="sendFileBtn">Send</button>
+    </div>
+    <table id="fileTable" class="fileTable">
+        <thead>
+            <tr>
+                <th>Received Files</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div> 
+
+<div id="lobby-container">
+    <div id="form-container">
+        <div id="form__container__header">
+            <p>👋 Create OR Join a Room</p>
+        </div>
+
+        <div id="form__content__wrapper">
+            <form id="join-form">
+                <input type="text" name="invite_link" required />
+                <input type="submit" value="Join Room" />
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/lib/signalr/dist/browser/signalr.js"></script>
+    <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+   
+    <script type="text/javascript" src="~/js/webrtcmain.js"></script>
+    <script>
+        let form = document.getElementById('join-form')
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault()
+            let inviteCode = e.target.invite_link.value
+            window.location = `index.html?room=${inviteCode}`
+        })
+    </script>
+}
+ *@
+
+@section StyleSheets {
+    <link rel="stylesheet" href="~/css/lobby.css" type="text/css" />
+}
+        <div id="form-container">
+            <div id="form__container__header">
+                <p>👋 Create OR Join a Room</p>
+            </div>
+
+            <div id="form__content__wrapper">
+                <form id="join-form">
+                    <input type="text" name="invite_link" required />
+                    <input type="submit" value="Join Room" />
+                </form>
+            </div>
+        </div>
+
+
+@section Scripts {
+    <script>
+        let form = document.getElementById('join-form')
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault()
+            let inviteCode = e.target.invite_link.value
+            window.location = `@Url.Action("Index", "Home")?room=${inviteCode}`;
+        })
+    </script>
+}
+@*<!-- Views/Home/Index.cshtml -->
+
+ <!DOCTYPE html>
+<html>
+<head>
+    <title>WebRTC Video Chat</title>
+</head>
+<body>
+    <h1>WebRTC Video Chat Example</h1>
+    <label for="roomName">Room Name:</label>
+    <input type="text" id="roomName" />
+    <button onclick="joinRoom()">Join Room</button>
+
+    <video id="localVideo" autoplay></video>
+    <video id="remoteVideo" autoplay></video>
+
+    <script>
+        const localVideo = document.getElementById('localVideo');
+        const remoteVideo = document.getElementById('remoteVideo');
+        let localStream;
+        let peerConnection;
+        let roomName;
+
+        const configuration = {
+            'iceServers': [{
+                'urls': 'stun:stun.l.google.com:19302'
+            }]
+        };
+
+        function joinRoom() {
+            roomName = document.getElementById('roomName').value;
+
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                .then(stream => {
+                    localStream = stream;
+                    localVideo.srcObject = stream;
+
+                    const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+                    peerConnection = new RTCPeerConnection(configuration);
+
+                    // Add the local stream to the peer connection
+                    localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
+                    // Set up event handlers for ICE negotiation events
+                    peerConnection.onicecandidate = event => {
+                        if (event.candidate) {
+                            const signalData = JSON.stringify({ ice: event.candidate });
+                            sendSignal(signalData);
+                        }
+                    };
+
+                    // Set up event handler for receiving remote stream
+                    peerConnection.ontrack = event => {
+                        remoteVideo.srcObject = event.streams[0];
+                    };
+
+                    // Join the room on the server
+                    joinRoomOnServer();
+                })
+                .catch(error => {
+                    console.error('Error accessing media devices:', error);
+                });
+        }
+
+        function sendSignal(signal) {
+            // Replace this with your SignalR logic for sending signals
+            // In this example, it's assumed that you have a function called `sendSignalToServer`
+            // that sends the signal to the server
+            sendSignalToServer(signal);
+        }
+
+        function sendSignalToServer(signal) {
+            // Replace this with your SignalR hub connection logic
+            // In this example, it's assumed that you have a SignalR connection named `connection`
+            connection.invoke('SendSignal', signal);
+        }
+
+        function joinRoomOnServer() {
+            // Replace this with your SignalR hub connection logic
+            // In this example, it's assumed that you have a SignalR connection named `connection`
+            connection.invoke('JoinRoom', roomName)
+                .then(() => {
+                    console.log(`Joined room: ${roomName}`);
+                })
+                .catch(error => console.error('Error joining room:', error));
+        }
+
+        // The rest of your SignalR connection logic remains unchanged
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.9/signalr.min.js"></script>
+    <script>
+        // Replace this with your SignalR hub connection logic
+        // In this example, it's assumed that you have a SignalR connection named `connection`
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/videoChatHub")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        connection.start().then(function () {
+            console.log("SignalR connected");
+        }).catch(function (err) {
+            return console.error(err.toString());
+        });
+
+        connection.on("ReceiveSignal", function (user, signalData) {
+            const signal = JSON.parse(signalData);
+
+            // Handle different types of signals (ICE candidates, SDP)
+            if (signal.ice) {
+                peerConnection.addIceCandidate(new RTCIceCandidate(signal.ice));
+            } else if (signal.sdp) {
+                peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp))
+                    .then(() => {
+                        if (signal.sdp.type === 'offer') {
+                            return peerConnection.createAnswer();
+                        }
+                    })
+                    .then(answer => peerConnection.setLocalDescription(answer))
+                    .then(() => {
+                        const signalData = JSON.stringify({ sdp: peerConnection.localDescription });
+                        sendSignal(signalData);
+                    })
+                    .catch(error => console.error('Error setting remote description:', error));
+            }
+        });
+
+        connection.on("UserJoined", function (userId) {
+            console.log(`User ${userId} joined the room`);
+        });
+    </script>
+</body>
+</html>
+ *@

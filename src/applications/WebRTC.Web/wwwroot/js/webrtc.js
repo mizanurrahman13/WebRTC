@@ -151,19 +151,19 @@ $('#roomTable tbody').on('click', 'button', function () {
     }
 });
 
-$(fileInput).change(function () {
-    let file = fileInput.files[0];
-    if (file) {
-        sendFileBtn.disabled = false;
-    } else {
-        sendFileBtn.disabled = true;
-    }
-});
+//$(fileInput).change(function () {
+//    let file = fileInput.files[0];
+//    if (file) {
+//        sendFileBtn.disabled = false;
+//    } else {
+//        sendFileBtn.disabled = true;
+//    }
+//});
 
-$(sendFileBtn).click(function () {
-    sendFileBtn.disabled = true;
-    sendFile();
-});
+//$(sendFileBtn).click(function () {
+//    sendFileBtn.disabled = true;
+//    sendFile();
+//});
 
 /****************************************************************************
 * User media (webcam)

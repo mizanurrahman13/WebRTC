@@ -1,4 +1,4 @@
-﻿@{
+﻿@* @{
     ViewData["Title"] = "Home";
 }
 
@@ -6,4 +6,134 @@
 <p>Choose an option below:</p>
 <ul>
     <li><a asp-action="JoinMeeting" asp-route-meetingId="Meeting123">Join Meeting</a></li>
-</ul>
+</ul> *@
+
+@section StyleSheets {
+    <link rel="stylesheet" href="~/css/main.css" type="text/css" />
+}
+    <div id="videos">
+        <video class="video-player" id="user-1" autoplay playsinline></video>
+        <video class="video-player" id="user-2" autoplay playsinline></video>
+    </div>
+
+    <div id="controls">
+
+        <div class="control-container" id="camera-btn">
+            <img src="icons/camera.png" />
+        </div>
+
+        <div class="control-container" id="mic-btn">
+            <img src="icons/mic.png" />
+        </div>
+
+        <a href="lobby.html">
+            <div class="control-container" id="leave-btn">
+                <img src="icons/phone.png" />
+            </div>
+        </a>
+
+    </div>
+
+@section Scripts {
+    <script src="~/js/agora-rtm-sdk-1.4.4.js"></script>
+    <script src="~/js/webrtcmain.js"></script>
+}
+@* <!-- Views/Home/Index.cshtml -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebRTC Video Chat</title>
+</head>
+<body>
+    <h1>WebRTC Video Chat Example</h1>
+    <video id="localVideo" autoplay></video>
+    <video id="remoteVideo" autoplay></video>
+
+    <script>
+        const localVideo = document.getElementById('localVideo');
+        const remoteVideo = document.getElementById('remoteVideo');
+        let localStream;
+        let peerConnection;
+
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            .then(stream => {
+                localStream = stream;
+                localVideo.srcObject = stream;
+
+                const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+                peerConnection = new RTCPeerConnection(configuration);
+
+                // Add the local stream to the peer connection
+                localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
+                // Set up event handlers for ICE negotiation events
+                peerConnection.onicecandidate = event => {
+                    if (event.candidate) {
+                        const signalData = JSON.stringify({ ice: event.candidate });
+                        sendSignal(signalData);
+                    }
+                };
+
+                // Set up event handler for receiving remote stream
+                peerConnection.ontrack = event => {
+                    remoteVideo.srcObject = event.streams[0];
+                };
+            })
+            .catch(error => {
+                console.error('Error accessing media devices:', error);
+            });
+
+        function sendSignal(signal) {
+            // Replace this with your SignalR logic for sending signals
+            // In this example, it's assumed that you have a function called `sendSignalToServer`
+            // that sends the signal to the server
+            sendSignalToServer(signal);
+        }
+
+        function sendSignalToServer(signal) {
+            // Replace this with your SignalR hub connection logic
+            // In this example, it's assumed that you have a SignalR connection named `connection`
+            connection.invoke('SendSignal', 'user', signal);
+        }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.9/signalr.min.js"></script>
+    <script>
+        // Replace this with your SignalR hub connection logic
+        // In this example, it's assumed that you have a SignalR connection named `connection`
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/videoChatHub")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        connection.start().then(function () {
+            console.log("SignalR connected");
+        }).catch(function (err) {
+            return console.error(err.toString());
+        });
+
+        connection.on("ReceiveSignal", function (user, signalData) {
+            const signal = JSON.parse(signalData);
+
+            // Handle different types of signals (ICE candidates, SDP)
+            if (signal.ice) {
+                peerConnection.addIceCandidate(new RTCIceCandidate(signal.ice));
+            } else if (signal.sdp) {
+                peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp))
+                    .then(() => {
+                        if (signal.sdp.type === 'offer') {
+                            return peerConnection.createAnswer();
+                        }
+                    })
+                    .then(answer => peerConnection.setLocalDescription(answer))
+                    .then(() => {
+                        const signalData = JSON.stringify({ sdp: peerConnection.localDescription });
+                        sendSignal(signalData);
+                    })
+                    .catch(error => console.error('Error setting remote description:', error));
+            }
+        });
+    </script>
+</body>
+</html> *@

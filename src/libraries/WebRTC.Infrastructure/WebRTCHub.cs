@@ -6,7 +6,6 @@ namespace WebRTC.Infrastructure;
 public class WebRTCHub : Hub
 {
     private static RoomManager roomManager = new RoomManager();
-
     public override Task OnConnectedAsync()
     {
         return base.OnConnectedAsync();
@@ -71,7 +70,7 @@ public class WebRTCHub : Hub
                    {
                        RoomId = room.RoomId,
                        Name = room.Name,
-                       Button = "<button class=\"joinButton\">Join!</button>"
+                       Button = $"<a href='https://localhost:7042/Home/JoinMeeting?meetingId={room.RoomId}' target=\"_blank\" >Join Room</a>"
                    };
         var data = JsonConvert.SerializeObject(list);
 

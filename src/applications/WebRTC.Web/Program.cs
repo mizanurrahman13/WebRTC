@@ -3,6 +3,8 @@ using WebRTC.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddInfrastructure();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
